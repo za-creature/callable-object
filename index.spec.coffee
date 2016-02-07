@@ -87,12 +87,13 @@ describe "callable", ->
             class Test
 
             called = false
-            test = Callable Test, (arg1, arg2) ->
+            that = Callable Test, (arg1, arg2) ->
+                that.should.equal(this)
                 arg1.should.equal("foobar")
                 arg2.should.equal(true)
                 called = true
                 return 123
-            test("foobar", true).should.equal(123)
+            that("foobar", true).should.equal(123)
             called.should.be.true
 
 
@@ -100,14 +101,15 @@ describe "callable", ->
             class Test
 
             called = false
-            test = Callable Test, ->
+            that = Callable Test, ->
+                that.should.equal(this)
                 arguments.should.have.length(2)
                 arguments[0].should.equal("foo")
                 arguments[1].should.equal("bar")
                 called = true
                 return 1234
 
-            Function::apply.call(test, null, ["foo", "bar"]).should.equal(1234)
+            Function::apply.call(that, null, ["foo", "bar"]).should.equal(1234)
             called.should.be.true
 
 
@@ -115,14 +117,15 @@ describe "callable", ->
             class Test
 
             called = false
-            test = Callable Test, ->
+            that = Callable Test, ->
+                that.should.equal(this)
                 arguments.should.have.length(2)
                 arguments[0].should.equal("bar")
                 arguments[1].should.equal("baz")
                 called = true
                 return 5678
 
-            Function::call.call(test, null, "bar", "baz").should.equal(5678)
+            Function::call.call(that, null, "bar", "baz").should.equal(5678)
             called.should.be.true
 
 
