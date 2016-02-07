@@ -88,10 +88,8 @@ console.log(squareRootOfNine()) // 3
 ### Factory with hidden function
 
 ```js
-class LazyNumber {
-    construct(value) {
-        this.value = value
-    }
+function LazyNumber(value) {
+    this.value = value;
 }
 
 
