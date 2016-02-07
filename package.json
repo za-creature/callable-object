@@ -1,0 +1,51 @@
+{
+  "name": "callable-object",
+  "version": "1.0.0",
+  "description": "Easily create callable objects",
+  "keywords": [
+    "object",
+    "prototype",
+    "callable"
+  ],
+  "author": "Radu Dan <za_creature@yahoo.com> (https://github.com/za-creature)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/za-creature/callable-object.git"
+  },
+  "bugs": {
+    "url": "https://github.com/za-creature/callable-object/issues"
+  },
+  "homepage": "https://github.com/za-creature/callable-object",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "prepublish": "coffee -c index.coffee",
+    "lint": "coffeelint *.coffee",
+    "test": "mocha --opts mocha.opts",
+    "test-all": "mocha --opts mocha.opts --reporter mocha-junit-reporter *.spec.coffee",
+    "coverage": "istanbul report"
+  },
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coffee-coverage": "^1.0.1",
+    "coffee-script": "^1.10.0",
+    "coffeelint": "^1.14.2",
+    "coffeelint-advanced-colon-assignment-spacing": "^1.0.0",
+    "coffeelint-braces-padding": "^0.1.5",
+    "coffeelint-limit-newlines": "0.0.2",
+    "coffeelint-no-code-after-return": "0.0.3",
+    "coffeelint-prefer-double-quotes": "^0.1.0",
+    "coveralls": "^2.11.6",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.4.5",
+    "mocha-junit-reporter": "^1.9.1"
+  },
+  "engines": {
+    "npm": "*",
+    "node": ">=0.8"
+  }
+}
