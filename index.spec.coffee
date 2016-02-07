@@ -1,6 +1,6 @@
 chai = require "chai"
 
-callable = require "./index"
+callable = require "./index.coffee"
 
 
 chai.should()
