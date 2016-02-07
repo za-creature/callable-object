@@ -45,7 +45,7 @@ module.exports.Callable = (ctor, method = null, args = []) ->
     # update prototype, constructor and [[prototype]]
     obj.prototype = undefined
     obj.constructor = ctor
-    ### istanbul ignore else ###
+    ### istanbul ignore next ###
     if Object.setPrototypeOf?
         Object.setPrototypeOf(obj, ctor::)
     else
