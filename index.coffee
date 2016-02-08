@@ -1,3 +1,6 @@
+"use strict"
+
+
 module.exports = (ctor, args...) ->
     ###
     Returns a callable object from `ctor` using the default behavior.

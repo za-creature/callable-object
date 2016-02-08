@@ -1,3 +1,6 @@
+"use strict"
+
+
 chai = require "chai"
 
 callable = require "./index.coffee"
