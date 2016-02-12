@@ -21,11 +21,27 @@ ClassFactory = callable.factory(Class)
 instance = callable.Callable(Class, "baz", [])
 
 
-new Suite()
+bench = (name) ->
+    return new Suite()
+        .on "complete", ->
+            best = @filter("fastest")[0]
+
+            console.log(name)
+            for test in this
+                console.log([
+                    test.name,
+                    test.hz.toFixed(0),
+                    "±" + test.stats.rme.toFixed(2) + "%",
+                    (100 * test.hz / best.hz).toFixed(2) + "%"
+                ].join(" | "))
+            console.log()
+
+
+bench("Object creation, no args")
     .add "new Class()", ->
         obj = new Class()
     .add "Object.create(Class::)", ->
-        obj = Object.create({}, Class::)
+        obj = Object.create(Class::)
         Class.call(obj)
         obj
     .add "callable(Class)", ->
@@ -34,33 +50,60 @@ new Suite()
         obj = ClassFactory()
     .add "new ClassFactory()", ->
         obj = new ClassFactory()
+    .run()
+    
 
-    .add "new Class(5 args)", ->
+bench("Object creation, 5 args")
+    .add "new Class()", ->
         obj = new Class("a", "b", "c", "d", "e")
-    .add "Object.create(Class::, 5 args)", ->
-        obj = Object.create({}, Class::)
+    .add "Object.create(Class::)", ->
+        obj = Object.create(Class::)
         Class.call(obj, "a", "b", "c", "d", "e")
         obj
-    .add "callable(Class, 5 args)", ->
+    .add "callable(Class)", ->
         obj = callable(Class, "a", "b", "c", "d", "e")
-    .add "ClassFactory(5 args)", ->
+    .add "ClassFactory()", ->
         obj = ClassFactory("a", "b", "c", "d", "e")
-    .add "new ClassFactory(5 args)", ->
+    .add "new ClassFactory()", ->
         obj = new ClassFactory("a", "b", "c", "d", "e")
+    .run()
 
+
+bench("Object creation, 10 args")
+    .add "new Class()", ->
+        obj = new Class("a", "b", "c", "d", "e", 1, 2, 3, 4, 5)
+    .add "Object.create(Class::)", ->
+        obj = Object.create(Class::)
+        Class.call(obj, "a", "b", "c", "d", "e", 1, 2, 3, 4, 5)
+        obj
+    .add "callable(Class)", ->
+        obj = callable(Class, "a", "b", "c", "d", "e", 1, 2, 3, 4, 5)
+    .add "ClassFactory()", ->
+        obj = ClassFactory("a", "b", "c", "d", "e", 1, 2, 3, 4, 5)
+    .add "new ClassFactory()", ->
+        obj = new ClassFactory("a", "b", "c", "d", "e", 1, 2, 3, 4, 5)
+    .run()
+
+
+bench("Invocation, no args")
     .add "instance.baz()", ->
         result = instance.baz()
     .add "instance()", ->
         result = instance()
-    .add "instance.baz(5 args)", ->
-        result = instance.baz("a", "b", "c", "d", "e")
-    .add "instance(5 args)", ->
-        result = instance("a", "b", "c", "d", "e")
-    .add "instance.baz(10 args)", ->
-        result = instance.baz("a", "b", "c", "d", "e", 1, 2, 3, 4, 5)
-    .add "instance(10 args)", ->
-        result = instance("a", "b", "c", "d", "e", 1, 2, 3, 4, 5)
+    .run()
 
-    .on "cycle", (event) ->
-        console.log(String(event.target))
+
+bench("Invocation, 5 args")
+    .add "instance.baz()", ->
+        result = instance.baz("a", "b", "c", "d", "e")
+    .add "instance()", ->
+        result = instance("a", "b", "c", "d", "e")
+    .run()
+
+
+bench("Invocation, 10 args")
+    .add "instance.baz()", ->
+        result = instance.baz("a", "b", "c", "d", "e", 1, 2, 3, 4, 5)
+    .add "instance()", ->
+        result = instance("a", "b", "c", "d", "e", 1, 2, 3, 4, 5)
     .run()
