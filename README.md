@@ -23,10 +23,10 @@ const callable = require("callable-object");
 
 class Test {
     constructor(name) {
-        this.name = name
+        this.name = name;
     },
     __call__(arg) {
-        return `${arg} from ${this.name}`
+        return `${arg} from ${this.name}`;
     }
 }
 
@@ -34,10 +34,10 @@ class Test {
 const foo = callable(Test, "foo");
 const bar = callable(Test, "bar");
 
-console.log(foo("hello"))
-console.log(bar("hello"))
-console.log(foo("goodbye"))
-console.log(bar("goodbye"))
+console.log(foo("hello"));
+console.log(bar("hello"));
+console.log(foo("goodbye"));
+console.log(bar("goodbye"));
 ```
 
 Will print out:
@@ -52,14 +52,17 @@ goodbye from bar
 ### Override __call__
 
 ```js
-callable.method = "whatAreYouNutsThereAreNoUnderscoresInJavascript"
+callable.method = "whatAreYouNutsThereAreNoUnderscoresInJavascript";
 
 
 class Test {
     whatAreYouNutsThereAreNoUnderscoresInJavascript() {
-        return "hello world"
+        return "hello world";
     }
 }
+
+
+console.log(callable(Test)());  // hello world
 ```
 
 ### Factory
@@ -67,22 +70,22 @@ class Test {
 ```js
 class LazyNumber {
     construct(value) {
-        this.value = value
+        this.value = value;
     },
     invoke() {
-        return this.value
+        return this.value;
     }
 }
 
 
-LazyNumberFactory = callable.factory(LazyNumber, "invoke")
+LazyNumberFactory = callable.factory(LazyNumber, "invoke");
 
 
 const answerToLifeTheUniverseAndEverything = LazyNumberFactory(42);
 const squareRootOfNine = new LazyNumberFactory(3); // new is optional
 
-console.log(answerToLifeTheUniverseAndEverything()) // 42
-console.log(squareRootOfNine()) // 3
+console.log(answerToLifeTheUniverseAndEverything()); // 42
+console.log(squareRootOfNine()); // 3
 ```
 
 ### Factory with hidden function
@@ -94,7 +97,7 @@ function LazyNumber(value) {
 
 
 LazyNumberFactory = callable.factory(LazyNumber, function() {
-    return this.value
+    return this.value;
 })
 ```
 
