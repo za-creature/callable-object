@@ -1,22 +1,7 @@
 "use strict"
 
 
-module.exports = (ctor, args...) ->
-    ###
-    Returns a callable object from `ctor` using the default behavior.
-
-    The default behavior is to invoke a method called __call__ on the newly
-    created object whenever it is called as a function. This can be changed by
-    assigning a different value to the `method` property of this module. Doing
-    that of course comes with a "if you break it, you get to keep all the
-    little pieces" guarantee.
-
-    Any additional arguments are sent to `ctor`.
-    ###
-    module.exports.Callable(ctor, null, args)
-
-
-module.exports.Callable = (ctor, method = null, args = []) ->
+Callable = (ctor, method = null, args = []) ->
     ###
     Creates a new callable object.
 
@@ -41,9 +26,9 @@ module.exports.Callable = (ctor, method = null, args = []) ->
 
     # create a new function that invokes `method`
     if typeof method is "string"
-        obj = -> Function::apply.call(obj[method], obj, arguments)
+        obj = -> obj[method].apply(obj, arguments)
     else
-        obj = -> Function::apply.call(method, obj, arguments)
+        obj = -> method.apply(obj, arguments)
 
     # update prototype, constructor and [[prototype]]
     obj.prototype = undefined
@@ -59,6 +44,24 @@ module.exports.Callable = (ctor, method = null, args = []) ->
     return obj
 
 
+module.exports = (ctor, args...) ->
+    ###
+    Returns a callable object from `ctor` using the default behavior.
+
+    The default behavior is to invoke a method called __call__ on the newly
+    created object whenever it is called as a function. This can be changed by
+    assigning a different value to the `method` property of this module. Doing
+    that of course comes with a "if you break it, you get to keep all the
+    little pieces" guarantee.
+
+    Any additional arguments are sent to `ctor`.
+    ###
+    Callable(ctor, null, args)
+
+
+module.exports.Callable = Callable
+
+
 module.exports.factory = (ctor, method = null) ->
     ###
     Creates a new callable factory with specific behavior.
@@ -68,7 +71,7 @@ module.exports.factory = (ctor, method = null) ->
     they are called as a function. If `method` is not provided, it will use the
     global default
     ###
-    return -> module.exports.Callable(ctor, method, arguments)
+    return -> Callable(ctor, method, arguments)
 
 
 module.exports.method = "__call__"  # the default method to use; may be changed
