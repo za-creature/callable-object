@@ -118,6 +118,86 @@ a few limitations:
    rather slow. Not slow enough to discourage usage, but maybe don't create new
    callable objects in your critical code paths.
 
+## Performance
+
+Results were measured on a Intel i7-2600 @ 3.4GHz with 16GB of DDR3-1600 CL9
+under Node.JS v4.2.6. [Test spec](benchmark.coffee)
+
+### Object creation
+
+
+No constructor arguments
+
+| Test description       | Throughput | Error  | Percent of best |
+| ---------------------- | ---------: | -----: | --------------: |
+| new Class()            | 22,510,357 | ±0.83% |         100.00% |
+| Object.create(Class::) |  7,227,079 | ±1.07% |          32.11% |
+| callable(Class)        |     82,981 | ±3.20% |           0.37% |
+| ClassFactory()         |     84,268 | ±3.59% |           0.37% |
+| new ClassFactory()     |     86,179 | ±3.15% |           0.38% |
+
+5 constructor arguments
+
+| Test description       | Throughput | Error  | Percent of best |
+| ---------------------- | ---------: | -----: | --------------: |
+| new Class()            | 17,069,221 | ±0.63% |         100.00% |
+| Object.create(Class::) |  6,365,882 | ±1.05% |          37.29% |
+| callable(Class)        |     67,656 | ±1.92% |           0.40% |
+| ClassFactory()         |     88,792 | ±2.64% |           0.52% |
+| new ClassFactory()     |     87,260 | ±2.83% |           0.51% |
+
+10 constructor arguments
+
+| Test description       | Throughput | Error  | Percent of best |
+| ---------------------- | ---------: | -----: | --------------: |
+| new Class()            | 14,578,849 | ±1.24% |         100.00% |
+| Object.create(Class::) |  6,041,883 | ±1.09% |          41.44% |
+| callable(Class)        |     64,257 | ±1.84% |           0.44% |
+| ClassFactory()         |     88,469 | ±2.39% |           0.61% |
+| new ClassFactory()     |     87,123 | ±2.73% |           0.60% |
+
+### Invocation
+
+No arguments
+
+| Test description       | Throughput | Error  | Percent of best |
+| ---------------------- | ---------: | -----: | --------------: |
+| instance.baz()         | 36,369,977 | ±0.47% |         100.00% |
+| instance()             | 27,966,934 | ±1.30% |          76.90% |
+
+5 arguments
+
+| Test description       | Throughput | Error  | Percent of best |
+| ---------------------- | ---------: | -----: | --------------: |
+| instance.baz()         | 26,831,639 | ±0.60% |         100.00% |
+| instance()             | 22,229,576 | ±0.82% |          82.85% |
+
+10 arguments
+
+| Test description       | Throughput | Error  | Percent of best |
+| ---------------------- | ---------: | -----: | --------------: |
+| instance.baz()         | 22,671,310 | ±0.78% |         100.00% |
+| instance()             | 20,173,956 | ±0.79% |          88.98% |
+
+### Interpretation
+
+While the object creation performance is abysmal by most standards (200x
+slowdown), the nature of the benchmark needs to be taken into account: the test
+created an object and called its constructor, which stored the arguments it was
+called with (so that the JIT can't optimize them out).
+
+As the number of arguments (and thus the total amount of work performed by the
+benchmark) increased, the throughput started dropping, whereas the throughput
+of creating instances of callable classes remained relatively constant,
+signaling that most of the time was spent with the object creation itself and
+not running constructor code. As such, this 200x slowdown can be considered a
+worst-case scenario, with real worlds results most likely being closer to 10x -
+50x due to the extra work generally performed by the constructor.
+
+With regards to the invocation itself, a similar trend is noticeable but with
+the performance difference essentially becoming negligible as the amount of
+useful work performed by the function itself increases.
+
 ##  API
 
 ```js
