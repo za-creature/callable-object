@@ -218,7 +218,7 @@ callable(ctor, [args...])
 
 Returns a callable object from `ctor` using the default behavior.
 
-The default behavior is to invoke a method called __call__ on the newly
+The default behavior is to invoke a method called `__call__` on the newly
 created object whenever it is called as a function. This can be changed by
 assigning a different value to the `method` property of this module. Doing
 that of course comes with a "if you break it, you get to keep all the
