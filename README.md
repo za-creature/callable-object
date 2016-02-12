@@ -133,8 +133,9 @@ a few limitations:
 
 ## Performance [↑](#table-of-contents)
 
-Results were measured on a Intel i7-2600 @ 3.4GHz with 16GB of DDR3-1600 CL9
-under Node.JS v4.2.6. [Test spec](benchmark.coffee)
+Results [were measured](benchmark.coffee) on a Intel i7-2600 @ 3.4GHz with 16GB
+of DDR3-1600 CL9 under Node.JS v4.2.6. Throughput numbers are expressed in
+operations per second (ops).
 
 ### Object creation [↑](#table-of-contents)
 
