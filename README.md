@@ -7,6 +7,21 @@
 
 Ever find yourself missing Python's [`__call__`](https://docs.python.org/3/reference/datamodel.html#object.__call__) or PHP's [`__invoke`](http://php.net/manual/ro/language.oop5.magic.php#object.invoke)? Me too.
 
+## Table of Contents
+
+* [Installation](#installation)
+* [Usage](#usage)
+    * [Override `__call__`](#override-__call__)
+    * [Object factory](#object-factory)
+    * [Factory with hidden function](#factory-with-hidden-function)
+* [How it works](#how-it-works)
+* [Performance](#performance)
+    * [Object creation](#object-creation)
+    * [Invocation](#invocation)
+    * [Interpretation](#interpretation)
+* [API](#api)
+* [License: MIT](#license)
+
 ## Installation
 
 ```bash
@@ -14,8 +29,6 @@ npm install callable-object
 ```
 
 ## Usage
-
-### Basic
 
 ```js
 const callable = require("callable-object");
@@ -49,7 +62,7 @@ goodbye from foo
 goodbye from bar
 ```
 
-### Override __call__
+### Override `__call__`
 
 ```js
 callable.method = "whatAreYouNutsThereAreNoUnderscoresInJavascript";
@@ -65,7 +78,7 @@ class Test {
 console.log(callable(Test)());  // hello world
 ```
 
-### Factory
+### Object factory
 
 ```js
 class LazyNumber {
@@ -101,7 +114,7 @@ LazyNumberFactory = callable.factory(LazyNumber, function() {
 })
 ```
 
-## How?
+## How it works
 
 It works by creating a function that proxies to `this.__call__` (or wherever),
 changing said function's prototype then invokes the constructor on it. This has
@@ -198,7 +211,7 @@ With regards to the invocation itself, a similar trend is noticeable but with
 the performance difference essentially becoming negligible as the amount of
 useful work performed by the function itself increases.
 
-##  API
+## API
 
 ```js
 callable(ctor, [args...])
