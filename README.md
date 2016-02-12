@@ -9,26 +9,26 @@ Ever find yourself missing Python's [`__call__`](https://docs.python.org/3/refer
 
 ## Table of Contents
 
-* [Installation](#installation)
-* [Usage](#usage)
-    * [Override `__call__`](#override-__call__)
-    * [Object factory](#object-factory)
-    * [Factory with hidden function](#factory-with-hidden-function)
-* [How it works](#how-it-works)
-* [Performance](#performance)
-    * [Object creation](#object-creation)
-    * [Invocation](#invocation)
-    * [Interpretation](#interpretation)
-* [API](#api)
-* [License: MIT](#license)
+* [Installation](#installation-)
+* [Usage](#usage-)
+    * [Override `__call__`](#override-__call__-)
+    * [Object factory](#object-factory-)
+    * [Factory with hidden function](#factory-with-hidden-function-)
+* [How it works](#how-it-works-)
+* [Performance](#performance-)
+    * [Object creation](#object-creation-)
+    * [Invocation](#invocation-)
+    * [Interpretation](#interpretation-)
+* [API](#api-)
+* [License: MIT](#license-)
 
-## Installation
+## Installation [↑](#table-of-contents)
 
 ```bash
 npm install callable-object
 ```
 
-## Usage
+## Usage [↑](#table-of-contents)
 
 ```js
 const callable = require("callable-object");
@@ -62,7 +62,7 @@ goodbye from foo
 goodbye from bar
 ```
 
-### Override `__call__`
+### Override `__call__` [↑](#table-of-contents)
 
 ```js
 callable.method = "whatAreYouNutsThereAreNoUnderscoresInJavascript";
@@ -78,7 +78,7 @@ class Test {
 console.log(callable(Test)());  // hello world
 ```
 
-### Object factory
+### Object factory [↑](#table-of-contents)
 
 ```js
 class LazyNumber {
@@ -101,7 +101,7 @@ console.log(answerToLifeTheUniverseAndEverything()); // 42
 console.log(squareRootOfNine()); // 3
 ```
 
-### Factory with hidden function
+### Factory with hidden function [↑](#table-of-contents)
 
 ```js
 function LazyNumber(value) {
@@ -114,7 +114,7 @@ LazyNumberFactory = callable.factory(LazyNumber, function() {
 })
 ```
 
-## How it works
+## How it works [↑](#table-of-contents)
 
 It works by creating a function that proxies to `this.__call__` (or wherever),
 changing said function's prototype then invokes the constructor on it. This has
@@ -131,13 +131,12 @@ a few limitations:
    rather slow. Not slow enough to discourage usage, but maybe don't create new
    callable objects in your critical code paths.
 
-## Performance
+## Performance [↑](#table-of-contents)
 
 Results were measured on a Intel i7-2600 @ 3.4GHz with 16GB of DDR3-1600 CL9
 under Node.JS v4.2.6. [Test spec](benchmark.coffee)
 
-### Object creation
-
+### Object creation [↑](#table-of-contents)
 
 No constructor arguments
 
@@ -169,7 +168,7 @@ No constructor arguments
 | ClassFactory()         |     88,469 | ±2.39% |           0.61% |
 | new ClassFactory()     |     87,123 | ±2.73% |           0.60% |
 
-### Invocation
+### Invocation [↑](#table-of-contents)
 
 No arguments
 
@@ -192,7 +191,7 @@ No arguments
 | instance.baz()         | 22,671,310 | ±0.78% |         100.00% |
 | instance()             | 20,173,956 | ±0.79% |          88.98% |
 
-### Interpretation
+### Interpretation [↑](#table-of-contents)
 
 While the object creation performance is abysmal by most standards (200x
 slowdown), the nature of the benchmark needs to be taken into account: the test
@@ -211,7 +210,7 @@ With regards to the invocation itself, a similar trend is noticeable but with
 the performance difference essentially becoming negligible as the amount of
 useful work performed by the function itself increases.
 
-## API
+## API [↑](#table-of-contents)
 
 ```js
 callable(ctor, [args...])
@@ -257,6 +256,6 @@ use `new`) to return instances of `ctor` that will invoke `method` when
 they are called as a function. If `method` is not provided, it will use the
 global default
 
-## License
+## License [↑](#table-of-contents)
 
 callable-object is licensed under the [MIT license](LICENSE.md).
