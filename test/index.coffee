@@ -1,13 +1,7 @@
 "use strict"
+{expect} = require "chai"
 
-
-chai = require "chai"
-
-callable = require "./index.coffee"
-
-
-chai.should()
-{expect} = chai
+callable = require "../src"
 
 
 describe "callable", ->

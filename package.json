@@ -17,16 +17,16 @@
   },
   "homepage": "https://github.com/za-creature/callable-object",
   "license": "MIT",
-  "main": "index.js",
+  "main": "lib",
   "scripts": {
-    "prepublish": "coffee -c index.coffee",
-    "lint": "coffeelint *.coffee",
-    "test": "mocha --opts mocha.opts",
-    "test-all": "mocha --opts mocha.opts --reporter mocha-junit-reporter *.spec.coffee",
-    "coverage": "istanbul report"
+    "prepublish": "coffee -o lib -c src",
+    "lint": "coffeelint src/",
+    "test": "mocha",
+    "test-all": "mocha --reporter mocha-junit-reporter test/",
+    "coverage": "istanbul report lcovonly"
   },
   "files": [
-    "index.js"
+    "lib"
   ],
   "dependencies": {},
   "devDependencies": {
