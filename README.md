@@ -3,7 +3,7 @@
 [![Circle CI](https://circleci.com/gh/za-creature/callable-object/tree/master.svg?style=shield)](https://circleci.com/gh/za-creature/callable-object/tree/master)
 [![Dependencies](https://david-dm.org/za-creature/callable-object.svg)](https://david-dm.org/za-creature/callable-object)
 [![Dev Dependencies](https://david-dm.org/za-creature/callable-object/dev-status.svg)](https://david-dm.org/za-creature/callable-object#info=devDependencies)
-[![Coverage Status](https://coveralls.io/repos/github/za-creature/callable-object/badge.svg?branch=master)](https://coveralls.io/github/za-creature/callable-object?branch=master)
+[![Coverage Status](https://img.shields.io/coveralls/za-creature/callable-object.svg)](https://coveralls.io/github/za-creature/callable-object?branch=master)
 
 Ever find yourself missing Python's [`__call__`](https://docs.python.org/3/reference/datamodel.html#object.__call__) or PHP's [`__invoke`](http://php.net/manual/ro/language.oop5.magic.php#object.invoke)? Me too.
 
