@@ -9,26 +9,28 @@ Ever find yourself missing Python's [`__call__`](https://docs.python.org/3/refer
 
 ## Table of Contents
 
-* [Installation](#installation-)
-* [Usage](#usage-)
-    * [Override `__call__`](#override-__call__-)
-    * [Object factory](#object-factory-)
-    * [Factory with hidden function](#factory-with-hidden-function-)
-* [How it works](#how-it-works-)
-* [Performance](#performance-)
-    * [Object creation](#object-creation-)
-    * [Invocation](#invocation-)
-    * [Interpretation](#interpretation-)
-* [API](#api-)
-* [License: MIT](#license-)
+* [Installation](#installation)
+* [Usage](#usage)
+    * [Override `__call__`](#override-__call__)
+    * [Object factory](#object-factory)
+    * [Factory with hidden function](#factory-with-hidden-function)
+* [How it works](#how-it-works)
+* [Performance](#performance)
+    * [Object creation](#object-creation)
+    * [Invocation](#invocation)
+    * [Interpretation](#interpretation)
+* [API](#api)
+* [License: MIT](#license)
 
-## Installation [↑](#table-of-contents)
+## Installation
 
 ```bash
 npm install callable-object
 ```
 
-## Usage [↑](#table-of-contents)
+[↑ Back to top](#table-of-contents)
+
+## Usage
 
 ```js
 const callable = require("callable-object");
@@ -62,7 +64,9 @@ goodbye from foo
 goodbye from bar
 ```
 
-### Override `__call__` [↑](#table-of-contents)
+[↑ Back to top](#table-of-contents)
+
+### Override `__call__`
 
 ```js
 callable.method = "whatAreYouNutsThereAreNoUnderscoresInJavascript";
@@ -78,7 +82,9 @@ class Test {
 console.log(callable(Test)());  // hello world
 ```
 
-### Object factory [↑](#table-of-contents)
+[↑ Back to top](#table-of-contents)
+
+### Object factory
 
 ```js
 class LazyNumber {
@@ -101,7 +107,9 @@ console.log(answerToLifeTheUniverseAndEverything()); // 42
 console.log(squareRootOfNine()); // 3
 ```
 
-### Factory with hidden function [↑](#table-of-contents)
+[↑ Back to top](#table-of-contents)
+
+### Factory with hidden function
 
 ```js
 function LazyNumber(value) {
@@ -114,7 +122,9 @@ LazyNumberFactory = callable.factory(LazyNumber, function() {
 })
 ```
 
-## How it works [↑](#table-of-contents)
+[↑ Back to top](#table-of-contents)
+
+## How it works
 
 It works by creating a function that proxies to `this.__call__` (or wherever),
 changing said function's prototype then invokes the constructor on it. This has
@@ -131,13 +141,17 @@ a few limitations:
    rather slow. Not slow enough to discourage usage, but maybe don't create new
    callable objects in your critical code paths.
 
-## Performance [↑](#table-of-contents)
+[↑ Back to top](#table-of-contents)
+
+## Performance
 
 Results [were measured](benchmark/index.coffee) on a Intel i7-2600 @ 3.4GHz with
 16GB of DDR3-1600 CL9 under Node.JS v4.2.6. Throughput numbers are expressed in
 operations per second (ops).
 
-### Object creation [↑](#table-of-contents)
+[↑ Back to top](#table-of-contents)
+
+### Object creation
 
 No constructor arguments
 
@@ -169,7 +183,9 @@ No constructor arguments
 | ClassFactory()         |     88,469 | ±2.39% |           0.61% |
 | new ClassFactory()     |     87,123 | ±2.73% |           0.60% |
 
-### Invocation [↑](#table-of-contents)
+[↑ Back to top](#table-of-contents)
+
+### Invocation
 
 No arguments
 
@@ -192,7 +208,9 @@ No arguments
 | instance.baz()         | 22,671,310 | ±0.78% |         100.00% |
 | instance()             | 20,173,956 | ±0.79% |          88.98% |
 
-### Interpretation [↑](#table-of-contents)
+[↑ Back to top](#table-of-contents)
+
+### Interpretation
 
 While the object creation performance is abysmal by most standards (200x
 slowdown), the nature of the benchmark needs to be taken into account: the test
@@ -211,7 +229,9 @@ With regards to the invocation itself, a similar trend is noticeable but with
 the performance difference essentially becoming negligible as the amount of
 useful work performed by the function itself increases.
 
-## API [↑](#table-of-contents)
+[↑ Back to top](#table-of-contents)
+
+## API
 
 ```js
 callable(ctor, [args...])
@@ -257,6 +277,10 @@ use `new`) to return instances of `ctor` that will invoke `method` when
 they are called as a function. If `method` is not provided, it will use the
 global default
 
-## License [↑](#table-of-contents)
+[↑ Back to top](#table-of-contents)
+
+## License
 
 callable-object is licensed under the [MIT license](LICENSE.md).
+
+[↑ Back to top](#table-of-contents)
